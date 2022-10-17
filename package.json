@@ -2,6 +2,7 @@
   "name": "simple-node-project",
   "version": "1.0.0",
   "dependencies": {
+    "@fastify/cors": "^8.1.0",
     "axios": "^1.1.2",
     "fastify": "^4.8.1",
     "fluent-json-schema": "^4.0.0"

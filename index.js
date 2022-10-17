@@ -13,9 +13,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const fastify_1 = __importDefault(require("fastify"));
-const fluent_json_schema_1 = __importDefault(require("fluent-json-schema"));
+const cors_1 = __importDefault(require("@fastify/cors"));
 const axios = require('axios');
 const server = (0, fastify_1.default)();
+server.register(cors_1.default, {
+// put your options here
+});
 const AXIOS_HEADERS = {
     'app-id': '634929d545ebdf36e1a19608'
 };
@@ -30,17 +33,6 @@ server.get('/auth', (request, reply) => __awaiter(void 0, void 0, void 0, functi
     // do something with request data
     return `logged in!`;
 }));
-const bodyJsonSchema = fluent_json_schema_1.default.object()
-    .additionalProperties(false)
-    .prop('title', fluent_json_schema_1.default.string())
-    .prop('author', fluent_json_schema_1.default.string());
-// Note that there is no need to call `.valueOf()`!
-const schema = {
-    body: bodyJsonSchema,
-    /*response: {
-      200: S.object().prop('status', S.string()))
-    },*/
-};
 /**
  * getAll posts *paginated
  */
@@ -52,7 +44,6 @@ server.get('/getPost', (request, reply) => __awaiter(void 0, void 0, void 0, fun
         .catch((err) => {
         console.log('Error: ', err.message);
     });
-    console.log("return nooooooooow");
     return reply;
 }));
 /**
@@ -72,7 +63,7 @@ server.get('/getPostByUser', (request, reply) => __awaiter(void 0, void 0, void 
  * create a new Post
  */
 server.post('/createPost', (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
-    yield axios.post('https://dummyapi.io/data/v1/post', { headers: AXIOS_HEADERS })
+    yield axios.post('https://dummyapi.io/data/v1/post/create', { headers: AXIOS_HEADERS })
         .then((res) => {
         reply.send(res.data);
     })
@@ -85,7 +76,7 @@ server.post('/createPost', (request, reply) => __awaiter(void 0, void 0, void 0,
  * update an existing post
  */
 server.post('/updatePost', (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
-    yield axios.put('https://dummyapi.io/data/v1/post', { headers: AXIOS_HEADERS })
+    yield axios.put('https://dummyapi.io/data/v1/post/:id', { headers: AXIOS_HEADERS })
         .then((res) => {
         reply.send(res.data);
     })
@@ -98,7 +89,7 @@ server.post('/updatePost', (request, reply) => __awaiter(void 0, void 0, void 0,
  * delete an existing post
  */
 server.post('/deletePost', (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
-    yield axios.delete('https://dummyapi.io/data/v1/post', { headers: AXIOS_HEADERS })
+    yield axios.delete('https://dummyapi.io/data/v1/post/:id', { headers: AXIOS_HEADERS })
         .then((res) => {
         reply.send(res.data);
     })

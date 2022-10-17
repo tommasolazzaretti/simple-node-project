@@ -1,10 +1,13 @@
 import fastify from 'fastify';
-import S from 'fluent-json-schema';
+import cors from '@fastify/cors'
 import {IHeaders, IUser} from "./global/interfaces/Auth";
 import {AxiosResponse} from "axios";
 
 const axios = require('axios');
-const server = fastify()
+const server = fastify();
+server.register(cors, {
+    // put your options here
+})
 
 const AXIOS_HEADERS: any = {
     'app-id': '634929d545ebdf36e1a19608'
