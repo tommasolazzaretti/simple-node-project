@@ -5,6 +5,7 @@ import {AxiosResponse} from "axios";
 
 const axios = require('axios');
 const server = fastify();
+
 server.register(cors, {
     // put your options here
 })
@@ -73,6 +74,8 @@ server.get('/getPostByUser', async (request, reply) => {
  * create a new Post
  */
 server.post('/createPost', async (request, reply) => {
+    let optionalParams: any = request.body;
+
     await axios.post('https://dummyapi.io/data/v1/post/create', {headers: AXIOS_HEADERS})
         .then((res: AxiosResponse<any>) => {
             reply.send(res.data);
@@ -88,7 +91,9 @@ server.post('/createPost', async (request, reply) => {
  * update an existing post
  */
 server.post('/updatePost', async (request, reply) => {
-    await axios.put('https://dummyapi.io/data/v1/post/:id', {headers: AXIOS_HEADERS})
+    let optionalParams: any = request.body;
+
+    await axios.put(`https://dummyapi.io/data/v1/post/${optionalParams.id}`, {headers: AXIOS_HEADERS})
         .then((res: AxiosResponse<any>) => {
             reply.send(res.data);
         })
@@ -103,7 +108,9 @@ server.post('/updatePost', async (request, reply) => {
  * delete an existing post
  */
 server.post('/deletePost', async (request, reply) => {
-    await axios.delete('https://dummyapi.io/data/v1/post/:id', {headers: AXIOS_HEADERS})
+    let optionalParams: any = request.body;
+
+    await axios.delete(`https://dummyapi.io/data/v1/post/${optionalParams.id}`, {headers: AXIOS_HEADERS})
         .then((res: AxiosResponse<any>) => {
             reply.send(res.data);
         })
@@ -114,7 +121,7 @@ server.post('/deletePost', async (request, reply) => {
     return reply;
 })
 
-server.listen({port: 8080}, (err, address) => {
+server.listen({port: 8080, host: '0.0.0.0'}, (err, address) => {
     if (err) {
         console.error(err)
         process.exit(1)

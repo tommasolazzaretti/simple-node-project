@@ -38,14 +38,12 @@ server.get('/auth', (request, reply) => __awaiter(void 0, void 0, void 0, functi
  */
 server.post('/getPost', (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
     let optionalParams = request.body;
-    console.log('BODY: ', optionalParams);
     let url = 'https://dummyapi.io/data/v1/post';
     if (request.body) {
         url = url.concat('?');
         optionalParams.limit ? url = url.concat(`limit=${optionalParams.limit}`) : null;
         optionalParams.page ? url = url.concat(`&page=${optionalParams.page}`) : null;
     }
-    console.log('url: ', url);
     yield axios.get(url, { headers: AXIOS_HEADERS })
         .then((res) => {
         reply.send(res.data);
@@ -72,6 +70,7 @@ server.get('/getPostByUser', (request, reply) => __awaiter(void 0, void 0, void 
  * create a new Post
  */
 server.post('/createPost', (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
+    let optionalParams = request.body;
     yield axios.post('https://dummyapi.io/data/v1/post/create', { headers: AXIOS_HEADERS })
         .then((res) => {
         reply.send(res.data);
@@ -85,7 +84,8 @@ server.post('/createPost', (request, reply) => __awaiter(void 0, void 0, void 0,
  * update an existing post
  */
 server.post('/updatePost', (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
-    yield axios.put('https://dummyapi.io/data/v1/post/:id', { headers: AXIOS_HEADERS })
+    let optionalParams = request.body;
+    yield axios.put(`https://dummyapi.io/data/v1/post/${optionalParams.id}`, { headers: AXIOS_HEADERS })
         .then((res) => {
         reply.send(res.data);
     })
@@ -98,7 +98,8 @@ server.post('/updatePost', (request, reply) => __awaiter(void 0, void 0, void 0,
  * delete an existing post
  */
 server.post('/deletePost', (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
-    yield axios.delete('https://dummyapi.io/data/v1/post/:id', { headers: AXIOS_HEADERS })
+    let optionalParams = request.body;
+    yield axios.delete(`https://dummyapi.io/data/v1/post/${optionalParams.id}`, { headers: AXIOS_HEADERS })
         .then((res) => {
         reply.send(res.data);
     })
@@ -107,7 +108,7 @@ server.post('/deletePost', (request, reply) => __awaiter(void 0, void 0, void 0,
     });
     return reply;
 }));
-server.listen({ port: 8080 }, (err, address) => {
+server.listen({ port: 8080, host: '0.0.0.0' }, (err, address) => {
     if (err) {
         console.error(err);
         process.exit(1);
