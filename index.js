@@ -15,7 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fastify_1 = __importDefault(require("fastify"));
 const cors_1 = __importDefault(require("@fastify/cors"));
 const axios = require('axios');
-const server = (0, fastify_1.default)();
+const server = (0, fastify_1.default)({
+    logger: true
+});
 server.register(cors_1.default, {
 // put your options here
 });
@@ -108,7 +110,8 @@ server.post('/deletePost', (request, reply) => __awaiter(void 0, void 0, void 0,
     });
     return reply;
 }));
-server.listen({ port: 8080, host: '0.0.0.0' }, (err, address) => {
+server.listen({ port: 8080 }, (err, address) => {
+    console.log(`Server listening at ${address}`);
     if (err) {
         console.error(err);
         process.exit(1);
