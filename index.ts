@@ -33,8 +33,17 @@ server.get<{
 /**
  * getAll posts *paginated
  */
-server.get('/getPost', async (request, reply) => {
-    await axios.get('https://dummyapi.io/data/v1/post', {headers: AXIOS_HEADERS})
+server.post('/getPost', async (request, reply) => {
+    let optionalParams: any = request.body;
+    let url = 'https://dummyapi.io/data/v1/post';
+
+    if (request.body) {
+        url = url.concat('?');
+        optionalParams.limit ? url = url.concat(`limit=${optionalParams.limit}`) : null;
+        optionalParams.page ? url = url.concat(`&page=${optionalParams.page}`) : null;
+    }
+
+    await axios.get(url, {headers: AXIOS_HEADERS})
         .then((res: AxiosResponse<any>) => {
             reply.send(res.data);
         })

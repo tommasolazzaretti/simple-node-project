@@ -36,8 +36,17 @@ server.get('/auth', (request, reply) => __awaiter(void 0, void 0, void 0, functi
 /**
  * getAll posts *paginated
  */
-server.get('/getPost', (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
-    yield axios.get('https://dummyapi.io/data/v1/post', { headers: AXIOS_HEADERS })
+server.post('/getPost', (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
+    let optionalParams = request.body;
+    console.log('BODY: ', optionalParams);
+    let url = 'https://dummyapi.io/data/v1/post';
+    if (request.body) {
+        url = url.concat('?');
+        optionalParams.limit ? url = url.concat(`limit=${optionalParams.limit}`) : null;
+        optionalParams.page ? url = url.concat(`&page=${optionalParams.page}`) : null;
+    }
+    console.log('url: ', url);
+    yield axios.get(url, { headers: AXIOS_HEADERS })
         .then((res) => {
         reply.send(res.data);
     })
