@@ -76,7 +76,11 @@ server.get('/getPostByUser', async (request, reply) => {
 server.post('/createPost', async (request, reply) => {
     let optionalParams: any = request.body;
 
-    await axios.post('https://dummyapi.io/data/v1/post/create', {headers: AXIOS_HEADERS})
+    await axios.post(
+        'https://dummyapi.io/data/v1/post/create',
+        optionalParams,
+        {headers: AXIOS_HEADERS}
+    )
         .then((res: AxiosResponse<any>) => {
             reply.send(res.data);
         })
@@ -93,7 +97,11 @@ server.post('/createPost', async (request, reply) => {
 server.post('/updatePost', async (request, reply) => {
     let optionalParams: any = request.body;
 
-    await axios.put(`https://dummyapi.io/data/v1/post/${optionalParams.id}`, {headers: AXIOS_HEADERS})
+    await axios.put(
+        `https://dummyapi.io/data/v1/post/${optionalParams.id}`,
+        optionalParams,
+        {headers: AXIOS_HEADERS}
+    )
         .then((res: AxiosResponse<any>) => {
             reply.send(res.data);
         })
@@ -109,7 +117,6 @@ server.post('/updatePost', async (request, reply) => {
  */
 server.post('/deletePost', async (request, reply) => {
     let optionalParams: any = request.body;
-
     await axios.delete(`https://dummyapi.io/data/v1/post/${optionalParams.id}`, {headers: AXIOS_HEADERS})
         .then((res: AxiosResponse<any>) => {
             reply.send(res.data);

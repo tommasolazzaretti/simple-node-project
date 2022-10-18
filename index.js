@@ -71,7 +71,7 @@ server.get('/getPostByUser', (request, reply) => __awaiter(void 0, void 0, void 
  */
 server.post('/createPost', (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
     let optionalParams = request.body;
-    yield axios.post('https://dummyapi.io/data/v1/post/create', { headers: AXIOS_HEADERS })
+    yield axios.post('https://dummyapi.io/data/v1/post/create', optionalParams, { headers: AXIOS_HEADERS })
         .then((res) => {
         reply.send(res.data);
     })
@@ -85,7 +85,7 @@ server.post('/createPost', (request, reply) => __awaiter(void 0, void 0, void 0,
  */
 server.post('/updatePost', (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
     let optionalParams = request.body;
-    yield axios.put(`https://dummyapi.io/data/v1/post/${optionalParams.id}`, { headers: AXIOS_HEADERS })
+    yield axios.put(`https://dummyapi.io/data/v1/post/${optionalParams.id}`, optionalParams, { headers: AXIOS_HEADERS })
         .then((res) => {
         reply.send(res.data);
     })
@@ -99,6 +99,7 @@ server.post('/updatePost', (request, reply) => __awaiter(void 0, void 0, void 0,
  */
 server.post('/deletePost', (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
     let optionalParams = request.body;
+    console.log(' optionalParams ', optionalParams);
     yield axios.delete(`https://dummyapi.io/data/v1/post/${optionalParams.id}`, { headers: AXIOS_HEADERS })
         .then((res) => {
         reply.send(res.data);
