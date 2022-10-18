@@ -9,9 +9,10 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc -p tsconfig.json",
-    "start": "npm run build && node index.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run build && node index.js",
+    "start:dev": "node index.js"
   },
   "keywords": [],
   "author": "",
