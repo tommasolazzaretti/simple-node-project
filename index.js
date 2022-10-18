@@ -99,7 +99,6 @@ server.post('/updatePost', (request, reply) => __awaiter(void 0, void 0, void 0,
  */
 server.post('/deletePost', (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
     let optionalParams = request.body;
-    console.log(' optionalParams ', optionalParams);
     yield axios.delete(`https://dummyapi.io/data/v1/post/${optionalParams.id}`, { headers: AXIOS_HEADERS })
         .then((res) => {
         reply.send(res.data);
